@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+    <class name="edu.sjsu.cmpe275.lab3.RestPersistenceApplication.Player" table="player" catalog="cmpe275">
+        <id name="id" type="long">
+            <column name="id" not-null="true" />
+            <!-- <generator class="identity" /> -->
+        </id>
+        <property name="firstname" type="string">
+            <column name="FirstName" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="LastName" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="45" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="45" />
+        </property>
+        <property name="sponsor" type="string">
+            <column name="sponsor" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>
