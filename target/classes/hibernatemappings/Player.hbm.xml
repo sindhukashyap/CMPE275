@@ -3,10 +3,10 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
  
 <hibernate-mapping>
-    <class name="edu.sjsu.cmpe275.lab3.RestPersistenceApplication.Player" table="player" catalog="cmpe275">
+    <class name="edu.sjsu.cmpe275.lab3.resource.Player" table="player">
         <id name="id" type="long">
-            <column name="id" not-null="true" />
-            <!-- <generator class="identity" /> -->
+            <column name="id" not-null ="true"/>
+            <generator class="native" />
         </id>
         <property name="firstname" type="string">
             <column name="FirstName" length="45" not-null="true" unique="true" />

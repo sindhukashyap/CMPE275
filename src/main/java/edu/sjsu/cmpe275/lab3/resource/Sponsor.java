@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe275.lab3.RestPersistenceApplication;
+package edu.sjsu.cmpe275.lab3.resource;
 
 public class Sponsor 
 

@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe275.lab3.RestPersistenceApplication;
+package edu.sjsu.cmpe275.lab3.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

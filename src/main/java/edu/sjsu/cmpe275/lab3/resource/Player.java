@@ -1,10 +1,24 @@
-package edu.sjsu.cmpe275.lab3.RestPersistenceApplication;
+package edu.sjsu.cmpe275.lab3.resource;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class Player 
 {
 	long id;
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	@NotEmpty (message = "Please enter firstname") 
 	String firstname;
+	@NotEmpty (message = "Please enter lastname") 
 	String lastname;
+	//@Email (message = "Email format is not valid")	//Email format validation
+	@NotEmpty (message = "Please enter email id")	//Email should not empty
 	String email;
 	String address;
 	String description;
@@ -15,7 +29,7 @@ public class Player
 		
 	}
 	
-	public Player(long id, String firstname,String lastname,
+	public Player(int id, String firstname,String lastname,
 			String email, String address, String description,
 			String sponsor)
 			
@@ -29,10 +43,8 @@ public class Player
 		this.sponsor = sponsor;
 	}
 	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
+	
+	public void setId(int id) {
 		this.id = id;
 	}
 	

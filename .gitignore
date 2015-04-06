@@ -1,0 +1,7 @@
+*.class
+*.log
+*.war
+*.war.*
+
+# Target specific
+target/
