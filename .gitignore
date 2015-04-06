@@ -4,4 +4,4 @@
 *.war.*
 
 # Target specific
-/target/*
+target/
