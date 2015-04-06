@@ -3,5 +3,5 @@
 *.war
 *.war.*
 
-# Target specific
+# Target specific - not needed
 target/
