@@ -1,34 +1,34 @@
 package edu.sjsu.cmpe275.lab3.controller;
-import javax.validation.Valid;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.validation.Valid;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import edu.sjsu.cmpe275.lab3.handler.*;
+import edu.sjsu.cmpe275.lab3.resource.*;
 
-import edu.sjsu.cmpe275.lab3.handler.OpponentHandler;
-import edu.sjsu.cmpe275.lab3.handler.PlayerHandler;
-import edu.sjsu.cmpe275.lab3.resource.Opponent;
-import edu.sjsu.cmpe275.lab3.resource.Player;
 
 @RestController
 @EnableAutoConfiguration
 public class RestConfig {
+	
 	PlayerHandler handler;
+	SponsorHandler sponserHndlr;
 	OpponentHandler oppHandler;
+	
 	@RequestMapping("/")
     String home() {
         return "Hello World!";
     }
 	
 	@RequestMapping(value="/player",method=RequestMethod.POST)
-	public ResponseEntity<String> createPlayer(
-	//public Player createPlayer(
-			@Valid @RequestParam(value="firstname") String firstname,
+	public Player createPlayer(@Valid @RequestParam(value="firstname") String firstname,
 			 @Valid @RequestParam(value="lastname") String lastname,
 			 @Valid @RequestParam(value="email") String email,
 			 @RequestParam(value = "description", required = false) String description,
@@ -37,24 +37,31 @@ public class RestConfig {
 	{
 		handler=new PlayerHandler();
 		Player player = new Player();
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        df.setTimeZone(tz);
+        player.setId(Long.parseLong(df.format(new Date())));
 		player.setFirstname(firstname);
 		player.setLastname(lastname);
 		player.setEmail(email);
 		if(description!=null)
 		{
 			player.setDescription(description);
-		}		
+		}
+			
 		if(address!=null)
 		{
 			player.setAddress(address);
-		}	
+		}
+				
 		if(sponsor!=null)
 		{
 			player.setSponsor(sponsor);
 		}
 		System.out.println("player is:::"+player);
-		return new ResponseEntity(handler.createPlayer(player),HttpStatus.OK);
+		return handler.createPlayer(player);
 	}
+	
 	@RequestMapping(value="/player/{id}",method=RequestMethod.GET)
 	public ResponseEntity<String> getPlayer(@PathVariable("id") long id)  
 	{
@@ -69,6 +76,20 @@ public class RestConfig {
 		}
 	}
 	
+	@RequestMapping(value="/player/{id}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> deletePlayer(@PathVariable("id") long id)
+	{
+		handler=new PlayerHandler();
+		if(handler.checkPlayerExists(id))
+		{
+		return new ResponseEntity(handler.delete(id),HttpStatus.OK);
+		}
+		else
+		{
+		return new ResponseEntity<String>("Player is not created yet.Cannot be deleted.",HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@RequestMapping(value="/player/{id}",method=RequestMethod.POST)
 	public ResponseEntity<String> updatePlayer(@PathVariable("id") long id,
 			@Valid @RequestParam(value="firstname") String firstname,
@@ -78,7 +99,6 @@ public class RestConfig {
 			 @RequestParam(value = "address", required = false) String address,
 			 @RequestParam(value = "sponsor", required = false) String sponsor)
 	{
-		handler=new PlayerHandler();
 		Player player = new Player();
 		if(!handler.checkPlayerExists(id))
 		{
@@ -108,20 +128,71 @@ public class RestConfig {
 		}
 	}
 	
-	@RequestMapping(value="/player/{id}",method=RequestMethod.DELETE)
-	public ResponseEntity<String> deletePlayer(@PathVariable("id") long id)
+	//sponsor
+	
+	@RequestMapping(value="/sponsor",method=RequestMethod.POST)
+	public ResponseEntity createSponsor(@Valid @RequestParam(value="name") String name,
+			 @RequestParam(value = "description", required = false) String description,
+			 @RequestParam(value = "address", required = false) String address,//temporary delet after figuring out address as embedded
+			 @RequestParam(value = "state", required = false) String state,
+			 @RequestParam(value = "street", required = false) String street,
+			 @RequestParam(value = "city", required = false) String city,
+			 @RequestParam(value = "zip", required = false) String zip)
 	{
-		handler=new PlayerHandler();
-		if(handler.checkPlayerExists(id))
+		
+        sponserHndlr= new SponsorHandler();
+		return new ResponseEntity(sponserHndlr.createSponsor(name,description,state,street,city,zip),HttpStatus.OK);
+	}
+
+	@RequestMapping(value="/sponsor/{id}",method=RequestMethod.GET)
+	public ResponseEntity<String> getSponsor(@PathVariable("id") long id)  
+	{
+		sponserHndlr= new SponsorHandler();
+		if(sponserHndlr.getSponsor(id)==null)
 		{
-		return new ResponseEntity(handler.delete(id),HttpStatus.OK);
+			return new ResponseEntity<String>("Sponsor doesnt exist.Please add the sponsor first.",HttpStatus.NOT_FOUND);
 		}
 		else
 		{
-		return new ResponseEntity<String>("Player is not created yet.Cannot be deleted.",HttpStatus.NOT_FOUND);
+			return new ResponseEntity(sponserHndlr.getSponsor(id),HttpStatus.OK);
 		}
 	}
 	
+	@RequestMapping(value="/sponsor/{id}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> deleteSponsor(@PathVariable("id") long id)
+	{
+		sponserHndlr= new SponsorHandler();
+		if(sponserHndlr.checksponsorExists(id))
+		{
+		return new ResponseEntity(sponserHndlr.delete(id),HttpStatus.OK);
+		}
+		else
+		{
+		return new ResponseEntity<String>("Sponsor doesnt exist.Please add the sponsor first.",HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value="/sponsor/{id}",method=RequestMethod.POST)
+	public ResponseEntity updateSponsor(@PathVariable("id") long id,@Valid @RequestParam(value="name") String name,
+			 @RequestParam(value = "description", required = false) String description,
+			 @RequestParam(value = "address", required = false) String address,
+			 @RequestParam(value = "state", required = false) String state,
+			 @RequestParam(value = "street", required = false) String street,
+			 @RequestParam(value = "city", required = false) String city,@RequestParam(value = "zip", required = false) String zip)
+		{
+		sponserHndlr= new SponsorHandler();
+			if(!sponserHndlr.checksponsorExists(id))
+			{
+				return new ResponseEntity<String>("This Sponsor does not exist",HttpStatus.NOT_FOUND);
+			}
+			else
+			{
+			return new ResponseEntity(sponserHndlr.updateSponsor(id,name,description,state,street,city,zip),HttpStatus.OK);
+			}
+		}
+	
+	
+	//opponents
 	
 	@RequestMapping(value="/opponents/{id1}/{id2}",method=RequestMethod.PUT)
 	public ResponseEntity<String> addOpponent(@PathVariable("id1") long id1,@PathVariable("id2") long id2)
@@ -173,5 +244,5 @@ public class RestConfig {
 			}
 		}	
 	}
-
+	
 }

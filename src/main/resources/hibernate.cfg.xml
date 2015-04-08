@@ -13,5 +13,6 @@
         <property name="show_sql">true</property>
         <mapping resource="hibernatemappings/Player.hbm.xml"></mapping>
         <mapping resource="hibernatemappings/Opponent.hbm.xml"></mapping>
+        <mapping resource="hibernatemappings/Sponsor.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>

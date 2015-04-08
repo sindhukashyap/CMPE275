@@ -47,7 +47,6 @@ public class OpponentHandler
 		}
 		session.close();
 		return playersExist;
-		
 	}
 
 	public Iterator buildOpponentQuery(long id1,long id2)

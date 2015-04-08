@@ -3,7 +3,7 @@ package edu.sjsu.cmpe275.lab3.resource;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Player 
+public class Player implements java.io.Serializable 
 {
 	long id;
 	public long getId() {
@@ -20,9 +20,12 @@ public class Player
 	//@Email (message = "Email format is not valid")	//Email format validation
 	@NotEmpty (message = "Please enter email id")	//Email should not empty
 	String email;
+	
 	String address;
 	String description;
 	String sponsor;
+	//Player play;
+	//Address playerAddress;
 	
 	public Player()
 	{
@@ -43,6 +46,11 @@ public class Player
 		this.sponsor = sponsor;
 	}
 	
+//	public Player(Player play, Address playerAddress)
+//	{
+//		this.play = play;
+//		this.playerAddress = playerAddress;
+//	}
 	
 	public void setId(int id) {
 		this.id = id;

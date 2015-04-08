@@ -26,5 +26,13 @@
         <property name="sponsor" type="string">
             <column name="sponsor" length="45" />
         </property>
+        <component name="playerAddress" class="edu.sjsu.cmpe275.lab3.resource.Address">
+			<property name="street" column="street" type="string" length="250" />
+			<property name="city" column="city" type="string" length="50" />
+			<property name="state" column="state" type="string" length="50" />
+			<property name="zip" column="zip" type="string" length="10" />
+		</component>
+        
+      
     </class>
 </hibernate-mapping>

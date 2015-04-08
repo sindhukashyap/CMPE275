@@ -1,12 +1,30 @@
 package edu.sjsu.cmpe275.lab3.resource;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Sponsor 
 
 {
 	private long id;
+	@NotEmpty (message = "Sponsor name is mandatory")
     private String name;
     private String description;
     private String address;
+    //private Address address;
+    
+	/*public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}*/
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public long getId() {
 		return id;
 	}
@@ -25,10 +43,5 @@ public class Sponsor
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 }
