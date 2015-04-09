@@ -28,7 +28,7 @@ public class SponsorHandler {
 //        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 //        df.setTimeZone(tz);
 //		sponsor.setId(Long.parseLong(df.format(new Date())));
-		sponsor=populateSponsorValues(name,description,state,street,city,zip,sponsor);
+		sponsor=populateSponsorValues(name,description,state,street,city,zip);
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(sponsor);
@@ -43,33 +43,35 @@ public class SponsorHandler {
 	 * called from create sponsor
 	 */
 	private Sponsor populateSponsorValues(String name, String description,
-			String state, String street, String city, String zip,Sponsor sponsor) {
-		
+			String state, String street, String city, String zip) {
+		Sponsor sponsor = new Sponsor();
 		sponsor.setName(name);
 		Address address = new Address();
 		if(description!=null)
 		{
-		sponsor.setDescription(description);
+			sponsor.setDescription(description);
 		}
 		if(city!=null)
 		{
-		address.setCity(city);
+			address.setCity(city);
+			System.out.println("populateSponsorValues.. city is "+address.getCity());
 		}
 		if(street!=null)
 		{
-		address.setStreet(street);
+			address.setStreet(street);
 		}
 		if(zip!=null)
 		{
-		address.setZip(zip);
+			address.setZip(zip);
 		}
 		if(state!=null)
 		{
-		address.setState(state);
+			address.setState(state);
+			System.out.println("populateSponsorValues.. city is "+address.getState());
 		}
 //		if(address!=null)
 //		{
-//		sponsor.setAddress("temp value");
+		sponsor.setAddress(address);
 //		}
 		return sponsor;
 	}
@@ -114,7 +116,7 @@ public class SponsorHandler {
 	{
 		sponsor = new Sponsor();
 		sponsor.setId(id);
-		sponsor=populateSponsorValues(name,description,state,street,city,zip,sponsor);
+		sponsor=populateSponsorValues(name,description,state,street,city,zip);
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.merge(sponsor);

@@ -2,7 +2,7 @@ package edu.sjsu.cmpe275.lab3.resource;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Sponsor 
+public class Sponsor implements java.io.Serializable
 
 {
 	private long id;

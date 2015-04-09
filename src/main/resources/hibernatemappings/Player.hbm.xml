@@ -20,9 +20,9 @@
         <property name="description" type="string">
             <column name="description" length="45" />
         </property>
-        <property name="address" type="string">
+       <!--  <property name="address" type="string">
             <column name="address" length="45" />
-        </property>
+        </property> -->
         <property name="sponsor" type="string">
             <column name="sponsor" length="45" />
         </property>
