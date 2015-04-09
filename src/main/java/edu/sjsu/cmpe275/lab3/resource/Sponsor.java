@@ -9,22 +9,22 @@ public class Sponsor
 	@NotEmpty (message = "Sponsor name is mandatory")
     private String name;
     private String description;
-    private String address;
-    //private Address address;
+    //private String address;
+    private Address address;
     
-	/*public Address getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 	public void setAddress(Address address) {
 		this.address = address;
-	}*/
+	}
 	
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 	public long getId() {
 		return id;
 	}

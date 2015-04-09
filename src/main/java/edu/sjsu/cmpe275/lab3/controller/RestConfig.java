@@ -32,15 +32,16 @@ public class RestConfig {
 			 @Valid @RequestParam(value="lastname") String lastname,
 			 @Valid @RequestParam(value="email") String email,
 			 @RequestParam(value = "description", required = false) String description,
-			 @RequestParam(value = "address", required = false) String address,
+			 @RequestParam(value = "street", required = false) String street,
+			 @RequestParam(value = "city", required = false) String city,
+			 @RequestParam(value = "state", required = false) String state,
+			 @RequestParam(value = "zip", required = false) String zip,
+			 //@RequestParam(value = "address", required = false) String address,
 			 @RequestParam(value = "sponsor", required = false) String sponsor)
 	{
 		handler=new PlayerHandler();
 		Player player = new Player();
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        df.setTimeZone(tz);
-        player.setId(Long.parseLong(df.format(new Date())));
+		Address addr = null;
 		player.setFirstname(firstname);
 		player.setLastname(lastname);
 		player.setEmail(email);
@@ -49,14 +50,19 @@ public class RestConfig {
 			player.setDescription(description);
 		}
 			
-		if(address!=null)
-		{
-			player.setAddress(address);
-		}
+//		if(address!=null)
+//		{
+//			player.setAddress(address);
+//		}
 				
 		if(sponsor!=null)
 		{
 			player.setSponsor(sponsor);
+		}
+		if(street!=null && city!=null && state!=null && zip!=null)
+		{
+			 addr = new Address(street,city,state,zip);
+			 player.setAddress(addr);
 		}
 		System.out.println("player is:::"+player);
 		return handler.createPlayer(player);
@@ -97,9 +103,14 @@ public class RestConfig {
 			 @Valid @RequestParam(value="email") String email,
 			 @RequestParam(value = "description", required = false) String description,
 			 @RequestParam(value = "address", required = false) String address,
+			 @RequestParam(value = "street", required = false) String street,
+			 @RequestParam(value = "city", required = false) String city,
+			 @RequestParam(value = "state", required = false) String state,
+			 @RequestParam(value = "zip", required = false) String zip,
 			 @RequestParam(value = "sponsor", required = false) String sponsor)
 	{
 		Player player = new Player();
+		Address addr = new Address();
 		if(!handler.checkPlayerExists(id))
 		{
 			return new ResponseEntity<String>("This user does not exist",HttpStatus.NOT_FOUND);
@@ -115,14 +126,19 @@ public class RestConfig {
 				player.setDescription(description);
 			}
 			
-			if(address!=null)
-			{
-				player.setAddress(address);
-			}
+//			if(address!=null)
+//			{
+//				player.setAddress(address);
+//			}
 				
 			if(sponsor!=null)
 			{
 				player.setSponsor(sponsor);
+			}
+			if(street!=null && city!=null && state!=null && zip!=null)
+			{
+				 addr = new Address(street,city,state,zip);
+				 player.setAddress(addr);
 			}
 			return new ResponseEntity(handler.updatePlayer(player),HttpStatus.OK);
 		}
@@ -133,7 +149,7 @@ public class RestConfig {
 	@RequestMapping(value="/sponsor",method=RequestMethod.POST)
 	public ResponseEntity createSponsor(@Valid @RequestParam(value="name") String name,
 			 @RequestParam(value = "description", required = false) String description,
-			 @RequestParam(value = "address", required = false) String address,//temporary delet after figuring out address as embedded
+		//	 @RequestParam(value = "address", required = false) String address,//temporary delet after figuring out address as embedded
 			 @RequestParam(value = "state", required = false) String state,
 			 @RequestParam(value = "street", required = false) String street,
 			 @RequestParam(value = "city", required = false) String city,
@@ -175,7 +191,7 @@ public class RestConfig {
 	@RequestMapping(value="/sponsor/{id}",method=RequestMethod.POST)
 	public ResponseEntity updateSponsor(@PathVariable("id") long id,@Valid @RequestParam(value="name") String name,
 			 @RequestParam(value = "description", required = false) String description,
-			 @RequestParam(value = "address", required = false) String address,
+			 //@RequestParam(value = "address", required = false) String address,
 			 @RequestParam(value = "state", required = false) String state,
 			 @RequestParam(value = "street", required = false) String street,
 			 @RequestParam(value = "city", required = false) String city,@RequestParam(value = "zip", required = false) String zip)

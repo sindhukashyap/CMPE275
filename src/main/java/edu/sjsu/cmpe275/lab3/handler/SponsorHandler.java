@@ -24,10 +24,10 @@ public class SponsorHandler {
 	public Sponsor createSponsor(String name,String description,String state,String street,String city,String zip)
 	{
 		sponsor = new Sponsor();
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        df.setTimeZone(tz);
-		sponsor.setId(Long.parseLong(df.format(new Date())));
+//		TimeZone tz = TimeZone.getTimeZone("UTC");
+//        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+//        df.setTimeZone(tz);
+//		sponsor.setId(Long.parseLong(df.format(new Date())));
 		sponsor=populateSponsorValues(name,description,state,street,city,zip,sponsor);
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -67,10 +67,10 @@ public class SponsorHandler {
 		{
 		address.setState(state);
 		}
-		if(address!=null)
-		{
-		sponsor.setAddress("temp value");
-		}
+//		if(address!=null)
+//		{
+//		sponsor.setAddress("temp value");
+//		}
 		return sponsor;
 	}
 

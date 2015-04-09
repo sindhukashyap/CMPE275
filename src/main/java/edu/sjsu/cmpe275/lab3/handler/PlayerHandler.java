@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.lab3.handler;
 
 import org.hibernate.Session;
 
+import edu.sjsu.cmpe275.lab3.resource.Address;
 import edu.sjsu.cmpe275.lab3.resource.Player;
 import edu.sjsu.cmpe275.lab3.util.HibernateUtil;
 

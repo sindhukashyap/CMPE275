@@ -20,38 +20,16 @@ public class Player implements java.io.Serializable
 	//@Email (message = "Email format is not valid")	//Email format validation
 	@NotEmpty (message = "Please enter email id")	//Email should not empty
 	String email;
-	
-	String address;
+	//String address;
 	String description;
 	String sponsor;
-	//Player play;
-	//Address playerAddress;
-	
+	Player play;
+	Address address;
 	public Player()
 	{
 		
 	}
-	
-	public Player(int id, String firstname,String lastname,
-			String email, String address, String description,
-			String sponsor)
-			
-	{
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.id = id;
-		this.address = address;
-		this.description = description;
-		this.sponsor = sponsor;
-	}
-	
-//	public Player(Player play, Address playerAddress)
-//	{
-//		this.play = play;
-//		this.playerAddress = playerAddress;
-//	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -74,12 +52,12 @@ public class Player implements java.io.Serializable
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 	public String getDescription() {
 		return description;
 	}
@@ -93,4 +71,11 @@ public class Player implements java.io.Serializable
 		this.sponsor = sponsor;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 }
