@@ -196,7 +196,7 @@ public class RestConfig {
 			 @RequestParam(value = "street", required = false) String street,
 			 @RequestParam(value = "city", required = false) String city,@RequestParam(value = "zip", required = false) String zip)
 		{
-		sponserHndlr= new SponsorHandler();
+			sponserHndlr= new SponsorHandler();
 			if(!sponserHndlr.checksponsorExists(id))
 			{
 				return new ResponseEntity<String>("This Sponsor does not exist",HttpStatus.NOT_FOUND);
@@ -224,10 +224,16 @@ public class RestConfig {
 			//opponent.setOpponentid(Long.parseLong(df.format(new Date())));
 			opponent.setPlayer1(id1);
 			opponent.setPlayer2(id2);
-			return new ResponseEntity(oppHandler.newOpponent(opponent),HttpStatus.OK);
+			if(oppHandler.checkAlreadyOpponents(opponent))
+			{
+				return new ResponseEntity<String>("These players are already opponents",HttpStatus.NOT_FOUND);
+			}
+			else
+			{
+				Opponent opp = oppHandler.newOpponent(opponent);
+				return new ResponseEntity(opp,HttpStatus.OK);
+			}
 		}
-		
-		
 	}
 	
 	@RequestMapping(value="/opponents/{id1}/{id2}",method=RequestMethod.DELETE)
@@ -260,5 +266,4 @@ public class RestConfig {
 			}
 		}	
 	}
-	
 }

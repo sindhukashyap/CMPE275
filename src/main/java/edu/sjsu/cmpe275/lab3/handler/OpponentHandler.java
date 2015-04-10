@@ -72,4 +72,18 @@ public class OpponentHandler
 		}
 		else return false;
 	}
+
+	public boolean checkAlreadyOpponents(Opponent opponent) 
+	{
+		session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		String hql = "from opponents where (player1= :p1 and player2= :p2) or (player1= :p2 and player2= :p1)";
+		Query query = session.createQuery(hql);
+		query.setParameter("p1", opponent.getPlayer1());
+		query.setParameter("p2", opponent.getPlayer2());
+		Iterator i  = query.list().iterator();
+		if(i.hasNext())
+			return true;
+		else return false;
+	}
 }
