@@ -32,5 +32,9 @@
 			<property name="state" column="state" type="string" length="50" />
 			<property name="zip" column="zip" type="string" length="10" />
 		</component>
+		<!-- <list name = "playerOpponents" table = "opponents" cascade = "all,delete-orphan" > 
+		<key column = "id" />
+		<element type = "long" column="player1"/>
+		</list> -->
     </class>
 </hibernate-mapping>

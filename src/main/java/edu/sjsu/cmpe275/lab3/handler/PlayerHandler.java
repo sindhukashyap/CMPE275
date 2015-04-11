@@ -1,8 +1,13 @@
 package edu.sjsu.cmpe275.lab3.handler;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 
-import edu.sjsu.cmpe275.lab3.resource.Address;
+import edu.sjsu.cmpe275.lab3.resource.Opponent;
 import edu.sjsu.cmpe275.lab3.resource.Player;
 import edu.sjsu.cmpe275.lab3.util.HibernateUtil;
 
@@ -35,6 +40,12 @@ public class PlayerHandler
 	{
 		session = HibernateUtil.getSessionFactory().openSession();
 		Player player=(Player)session.get(Player.class,id);
+		long player1 = player.getId();
+		List <Long> opp = getOpponentList(player1);
+		if(opp != null)
+		{
+			player.setPlayerOpponents(opp);
+		}
 		Player returnObject = null;
 		if(null!=player)
 		{
@@ -44,10 +55,34 @@ public class PlayerHandler
 		return returnObject;
 	}
 
+	private List<Long> getOpponentList(long id) 
+	{
+		session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		List<Long> oppList = new ArrayList<Long>();
+		String hql1 = "from Opponent where player1= :player1";
+		//String hql2 = "from Opponent where player2= :player1";
+		Query query = session.createQuery(hql1);
+		query.setParameter("player1", id);
+		List list = query.list();
+		if(list != null)
+		{
+			for(int i = 0;i<list.size(); i++)
+			{
+				Opponent opps = (Opponent)list.get(i);
+				oppList.add(opps.getPlayer2());
+			}
+		}
+		return oppList;
+	}
+
 	public Player updatePlayer(Player player) 
 	{
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
+		long player1 = player.getId();
+		List <Long> opp = getOpponentList(player1);
+		player.setPlayerOpponents(opp);
 		session.merge(player);
 		session.getTransaction().commit();
 		session.close();

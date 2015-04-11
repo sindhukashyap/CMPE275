@@ -64,6 +64,7 @@ public class RestConfig {
 			 addr = new Address(street,city,state,zip);
 			 player.setAddress(addr);
 		}
+		
 		System.out.println("player is:::"+player);
 		return handler.createPlayer(player);
 	}
@@ -224,15 +225,15 @@ public class RestConfig {
 			//opponent.setOpponentid(Long.parseLong(df.format(new Date())));
 			opponent.setPlayer1(id1);
 			opponent.setPlayer2(id2);
-			if(oppHandler.checkAlreadyOpponents(opponent))
-			{
-				return new ResponseEntity<String>("These players are already opponents",HttpStatus.NOT_FOUND);
-			}
-			else
-			{
+//			if(oppHandler.checkAlreadyOpponents(opponent))
+//			{
+//				return new ResponseEntity<String>("These players are already opponents",HttpStatus.NOT_FOUND);
+//			}
+//			else
+//			{
 				Opponent opp = oppHandler.newOpponent(opponent);
 				return new ResponseEntity(opp,HttpStatus.OK);
-			}
+			//}
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.lab3.resource;
 
-import org.hibernate.validator.constraints.Email;
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Player implements java.io.Serializable 
@@ -22,9 +23,12 @@ public class Player implements java.io.Serializable
 	String email;
 	//String address;
 	String description;
-	String sponsor;
-	Player play;
+	String sponsor;//should be a Sponsor object;
 	Address address;
+	List<Long> playerOpponents;
+	
+	
+
 	public Player()
 	{
 		
@@ -78,4 +82,13 @@ public class Player implements java.io.Serializable
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	
+	public List<Long> getPlayerOpponents() {
+		return playerOpponents;
+	}
+
+	public void setPlayerOpponents(List<Long> playerOpponents) {
+		this.playerOpponents = playerOpponents;
+	}
+	
 }
