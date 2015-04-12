@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import edu.sjsu.cmpe275.lab3.resource.Opponent;
 import edu.sjsu.cmpe275.lab3.resource.Player;
+import edu.sjsu.cmpe275.lab3.resource.Sponsor;
 import edu.sjsu.cmpe275.lab3.util.HibernateUtil;
 
 public class PlayerHandler 
@@ -125,6 +126,17 @@ public class PlayerHandler
 		{
 			return true;
 		}
+	}
+
+	public Sponsor getSponsorDetails(long sponsor) 
+	{
+		session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Sponsor s = (Sponsor)session.get(Sponsor.class,sponsor);
+		//Sponsor returnSponsor = s;
+		session.getTransaction().commit();
+		session.close();
+		return s;
 	}
 	
 }

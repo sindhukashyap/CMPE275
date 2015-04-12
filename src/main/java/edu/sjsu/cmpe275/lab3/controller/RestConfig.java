@@ -5,11 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
+
 import javax.validation.Valid;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import edu.sjsu.cmpe275.lab3.handler.*;
 import edu.sjsu.cmpe275.lab3.resource.*;
 
@@ -28,7 +31,7 @@ public class RestConfig {
     }
 	
 	@RequestMapping(value="/player",method=RequestMethod.POST)
-	public Player createPlayer(@Valid @RequestParam(value="firstname") String firstname,
+	public ResponseEntity<String> createPlayer(@Valid @RequestParam(value="firstname") String firstname,
 			 @Valid @RequestParam(value="lastname") String lastname,
 			 @Valid @RequestParam(value="email") String email,
 			 @RequestParam(value = "description", required = false) String description,
@@ -37,7 +40,7 @@ public class RestConfig {
 			 @RequestParam(value = "state", required = false) String state,
 			 @RequestParam(value = "zip", required = false) String zip,
 			 //@RequestParam(value = "address", required = false) String address,
-			 @RequestParam(value = "sponsor", required = false) String sponsor)
+			 @RequestParam(value = "sponsor", required = false) long sponsor)
 	{
 		handler=new PlayerHandler();
 		Player player = new Player();
@@ -49,16 +52,22 @@ public class RestConfig {
 		{
 			player.setDescription(description);
 		}
-			
-//		if(address!=null)
-//		{
-//			player.setAddress(address);
-//		}
 				
-		if(sponsor!=null)
+		if(sponsor != 0L)
 		{
-			player.setSponsor(sponsor);
+			Sponsor s = handler.getSponsorDetails(sponsor);
+			if(s == null)
+			{
+				return new ResponseEntity<String>("Invalid sponsor id for the user",HttpStatus.NOT_FOUND);
+			}
+			else
+			{
+				Sponsor spon = new Sponsor();
+				spon.setId(sponsor);
+				player.setSponsor(spon);
+			}
 		}
+		
 		if(street!=null && city!=null && state!=null && zip!=null)
 		{
 			 addr = new Address(street,city,state,zip);
@@ -66,7 +75,8 @@ public class RestConfig {
 		}
 		
 		System.out.println("player is:::"+player);
-		return handler.createPlayer(player);
+		return new ResponseEntity(handler.createPlayer(player),HttpStatus.OK);
+		
 	}
 	
 	@RequestMapping(value="/player/{id}",method=RequestMethod.GET)
@@ -89,11 +99,11 @@ public class RestConfig {
 		handler=new PlayerHandler();
 		if(handler.checkPlayerExists(id))
 		{
-		return new ResponseEntity(handler.delete(id),HttpStatus.OK);
+			return new ResponseEntity(handler.delete(id),HttpStatus.OK);
 		}
 		else
 		{
-		return new ResponseEntity<String>("Player is not created yet.Cannot be deleted.",HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("Player is not created yet.Cannot be deleted.",HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -108,7 +118,7 @@ public class RestConfig {
 			 @RequestParam(value = "city", required = false) String city,
 			 @RequestParam(value = "state", required = false) String state,
 			 @RequestParam(value = "zip", required = false) String zip,
-			 @RequestParam(value = "sponsor", required = false) String sponsor)
+			 @RequestParam(value = "sponsor", required = false) long sponsor)
 	{
 		Player player = new Player();
 		Address addr = new Address();
@@ -127,20 +137,25 @@ public class RestConfig {
 				player.setDescription(description);
 			}
 			
-//			if(address!=null)
-//			{
-//				player.setAddress(address);
-//			}
-				
-			if(sponsor!=null)
+			if(sponsor != 0L)
 			{
-				player.setSponsor(sponsor);
+				Sponsor s = handler.getSponsorDetails(sponsor);
+				if(s == null)
+				{
+					return new ResponseEntity<String>("Invalid sponsor id for the user",HttpStatus.NOT_FOUND);
+				}
+				else
+				{
+					player.setSponsor(s);
+				}
 			}
+			
 			if(street!=null && city!=null && state!=null && zip!=null)
 			{
 				 addr = new Address(street,city,state,zip);
 				 player.setAddress(addr);
 			}
+			
 			return new ResponseEntity(handler.updatePlayer(player),HttpStatus.OK);
 		}
 	}
@@ -155,8 +170,7 @@ public class RestConfig {
 			 @RequestParam(value = "street", required = false) String street,
 			 @RequestParam(value = "city", required = false) String city,
 			 @RequestParam(value = "zip", required = false) String zip)
-	{
-		
+	{	
         sponserHndlr= new SponsorHandler();
 		return new ResponseEntity(sponserHndlr.createSponsor(name,description,state,street,city,zip),HttpStatus.OK);
 	}
@@ -196,7 +210,7 @@ public class RestConfig {
 			 @RequestParam(value = "state", required = false) String state,
 			 @RequestParam(value = "street", required = false) String street,
 			 @RequestParam(value = "city", required = false) String city,@RequestParam(value = "zip", required = false) String zip)
-		{
+	{
 			sponserHndlr= new SponsorHandler();
 			if(!sponserHndlr.checksponsorExists(id))
 			{
@@ -206,7 +220,7 @@ public class RestConfig {
 			{
 			return new ResponseEntity(sponserHndlr.updateSponsor(id,name,description,state,street,city,zip),HttpStatus.OK);
 			}
-		}
+	}
 	
 	
 	//opponents

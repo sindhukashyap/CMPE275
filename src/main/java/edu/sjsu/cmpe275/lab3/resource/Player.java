@@ -7,13 +7,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Player implements java.io.Serializable 
 {
 	long id;
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 	@NotEmpty (message = "Please enter firstname") 
 	String firstname;
 	@NotEmpty (message = "Please enter lastname") 
@@ -23,17 +16,22 @@ public class Player implements java.io.Serializable
 	String email;
 	//String address;
 	String description;
-	String sponsor;//should be a Sponsor object;
+	Sponsor sponsor;//should be a Sponsor object;
 	Address address;
 	List<Long> playerOpponents;
-	
-	
-
 	public Player()
 	{
 		
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -68,10 +66,10 @@ public class Player implements java.io.Serializable
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getSponsor() {
+	public Sponsor getSponsor() {
 		return sponsor;
 	}
-	public void setSponsor(String sponsor) {
+	public void setSponsor(Sponsor sponsor) {
 		this.sponsor = sponsor;
 	}
 
