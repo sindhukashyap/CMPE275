@@ -1,21 +1,19 @@
 package edu.sjsu.cmpe275.lab3.handler;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.List;
 
-import javassist.expr.Instanceof;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 
-import edu.sjsu.cmpe275.lab3.resource.*;
+import edu.sjsu.cmpe275.lab3.resource.Address;
+import edu.sjsu.cmpe275.lab3.resource.Sponsor;
 import edu.sjsu.cmpe275.lab3.util.HibernateUtil;
 
 public class SponsorHandler {
 	
 	Session session;
 	Sponsor sponsor;
+	Address address ;
 	
 	/*
 	 * Method to create a new sponsor
@@ -24,10 +22,6 @@ public class SponsorHandler {
 	public Sponsor createSponsor(String name,String description,String state,String street,String city,String zip)
 	{
 		sponsor = new Sponsor();
-//		TimeZone tz = TimeZone.getTimeZone("UTC");
-//        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-//        df.setTimeZone(tz);
-//		sponsor.setId(Long.parseLong(df.format(new Date())));
 		sponsor=populateSponsorValues(name,description,state,street,city,zip);
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -43,36 +37,19 @@ public class SponsorHandler {
 	 * called from create sponsor
 	 */
 	private Sponsor populateSponsorValues(String name, String description,
-			String state, String street, String city, String zip) {
-		Sponsor sponsor = new Sponsor();
+		String state, String street, String city, String zip) {
 		sponsor.setName(name);
-		Address address = new Address();
+		
 		if(description!=null)
 		{
 			sponsor.setDescription(description);
 		}
-		if(city!=null)
+		if(street!=null || city!=null || state!=null || zip!=null)
 		{
-			address.setCity(city);
-			System.out.println("populateSponsorValues.. city is "+address.getCity());
+			address = new Address(street,city,state,zip);
+			sponsor.setAddress(address);
+			System.out.println("populatedSponsor's Address ::city is "+address.getCity());
 		}
-		if(street!=null)
-		{
-			address.setStreet(street);
-		}
-		if(zip!=null)
-		{
-			address.setZip(zip);
-		}
-		if(state!=null)
-		{
-			address.setState(state);
-			System.out.println("populateSponsorValues.. city is "+address.getState());
-		}
-//		if(address!=null)
-//		{
-		sponsor.setAddress(address);
-//		}
 		return sponsor;
 	}
 
@@ -110,6 +87,30 @@ public class SponsorHandler {
 		session.getTransaction().commit();
 		session.close();
 		return returnObject;
+	}
+	
+	/*
+	 * Method to check if the player has a sponsor based on sponsor id
+	 * returns true if it has he sponsor
+	 * if true sponsor will not be deleted
+	 */
+	public boolean PlayerHasSponsorToDelete(long id)
+	{
+		session = HibernateUtil.getSessionFactory().openSession();
+		String hql = "from Player where sponsor_id = :sponsor_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("sponsor_id",id);
+		List results = query.list();
+		session.close();
+		if(results.size()>0)
+		{
+			System.out.println("size is greater so im giving trueee");
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	public Sponsor updateSponsor(long id,String name,String description,String state,String street,String city,String zip) 

@@ -2,10 +2,6 @@ package edu.sjsu.cmpe275.lab3.controller;
 
 import org.springframework.boot.SpringApplication;
 
-/**
- * Hello world!
- *
- */
 /*
 @RestController
 @EnableAutoConfiguration*/

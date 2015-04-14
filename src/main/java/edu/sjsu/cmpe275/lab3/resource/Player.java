@@ -2,23 +2,36 @@ package edu.sjsu.cmpe275.lab3.resource;
 
 import java.util.List;
 
+import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Player implements java.io.Serializable 
-{
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Proxy(lazy=false)
+public class Player{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	long id;
 	@NotEmpty (message = "Please enter firstname") 
 	String firstname;
+	
 	@NotEmpty (message = "Please enter lastname") 
 	String lastname;
-	//@Email (message = "Email format is not valid")	//Email format validation
+	
 	@NotEmpty (message = "Please enter email id")	//Email should not empty
 	String email;
-	//String address;
+	
 	String description;
+	
 	Sponsor sponsor;//should be a Sponsor object;
 	Address address;
 	List<Long> playerOpponents;
+	
 	public Player()
 	{
 		
@@ -54,12 +67,7 @@ public class Player implements java.io.Serializable
 	public void setEmail(String email) {
 		this.email = email;
 	}
-//	public String getAddress() {
-//		return address;
-//	}
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
+
 	public String getDescription() {
 		return description;
 	}

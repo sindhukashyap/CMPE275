@@ -1,6 +1,14 @@
 package edu.sjsu.cmpe275.lab3.resource;
 
-public class Address implements java.io.Serializable {
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Proxy(lazy=false)
+public class Address {
 	
 	private String street;
 	private String city;

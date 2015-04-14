@@ -1,6 +1,16 @@
 package edu.sjsu.cmpe275.lab3.resource;
 
+import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Proxy(lazy=false)
+@Table(name="Opponents")
 public class Opponent 
 
 {

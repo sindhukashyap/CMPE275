@@ -22,15 +22,5 @@
 			<property name="state" column="state" type="string" length="50" />
 			<property name="zip" column="zip" type="string" length="10" />
 		</component>
-       <!--   <component name="address" class="edu.sjsu.cmpe275.lab3.resource.Address">
-			<property name="street" column="address" type="string"
-				length="250" />
-			 <property name="city" column="address" type="string"
-				length="50" />
-			<property name="state" column="address" type="string"
-				length="50" />
-			<property name="zip" column="address" type="string"
-				length="10" /> 
-		</component>-->
     </class>   
 </hibernate-mapping>

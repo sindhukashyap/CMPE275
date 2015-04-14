@@ -9,10 +9,10 @@
             <generator class="native" />
         </id>
          <property name="player1" type="long">
-            <column name="player1" not-null="true" unique="true" />
+            <column name="player1" not-null="true" /><!-- unique="true"  -->
         </property>
         <property name="player2" type="long">
-            <column name="player2" not-null="true" unique="true" />
+            <column name="player2" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

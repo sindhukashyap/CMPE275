@@ -1,15 +1,29 @@
 package edu.sjsu.cmpe275.lab3.resource;
 
+import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class Sponsor implements java.io.Serializable
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Proxy(lazy=false)
+public class Sponsor
 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private long id;
+	
 	@NotEmpty (message = "Sponsor name is mandatory")
     private String name;
+	
     private String description;
-    //private String address;
+
     private Address address;
     
 	public Address getAddress() {
@@ -18,13 +32,6 @@ public class Sponsor implements java.io.Serializable
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-//	public String getAddress() {
-//		return address;
-//	}
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 	public long getId() {
 		return id;
 	}
