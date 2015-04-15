@@ -35,9 +35,7 @@ public class PlayerHandler
 			Sponsor s = getSponsorDetails(sponsor);
 			if(s!=null)
 			{
-				Sponsor spon = new Sponsor();
-				spon.setId(sponsor);
-				player.setSponsor(spon);
+				player.setSponsor(s);
 			}
 		}
 		
@@ -73,26 +71,53 @@ public class PlayerHandler
 		return returnObject;
 	}
 
+	
+	/*
+	 * method to get the list of opponents for the player id
+	 * return list of Opponent ids
+	 */
 	private List<Long> getOpponentList(long id) 
 	{
 		session = HibernateUtil.getSessionFactory().openSession();
 		List<Long> oppList = new ArrayList<Long>();
 		String hql1 = "from Opponent where player1= :player1";
-		//String hql2 = "from Opponent where player2= :player1";
 		Query query = session.createQuery(hql1);
 		query.setParameter("player1", id);
 		List list = query.list();
+		
+		String hql2 = "from Opponent where player2= :player2";
+		Query query2 = session.createQuery(hql2);
+		query2.setParameter("player2", id);
+		List list2 = query2.list();
+		
 		//session.close();
 		if(list != null)
 		{
 			for(int i = 0;i<list.size(); i++)
 			{
 				Opponent opps = (Opponent)list.get(i);
+				System.out.println("Opponent(player2) is "+opps.getPlayer2());
 				oppList.add(opps.getPlayer2());
+			}
+		}
+		if(list2 != null)
+		{
+			for(int i = 0;i<list2.size(); i++)
+			{
+				Opponent opp2 = (Opponent)list2.get(i);
+				System.out.println("Opponent(player1) is "+opp2.getPlayer1());
+				if(!oppList.contains(opp2.getPlayer1()))
+				{
+					oppList.add(opp2.getPlayer1());
+				}
 			}
 		}
 		return oppList;
 	}
+	/*
+	 * method to update a player
+	 * return the updated player object
+	 */
 
 	public Player updatePlayer(long id,String firstname,String lastname,String email,String description,String street,
 			String city,String state,String zip,Long sponsor) 
@@ -161,6 +186,10 @@ public class PlayerHandler
 		}
 	}
 
+	/*
+	 * method to get the sponsor details to add it to the the player object
+	 * returns a Sponsor object
+	 */
 	public Sponsor getSponsorDetails(long sponsor) 
 	{
 		session = HibernateUtil.getSessionFactory().openSession();
@@ -191,6 +220,11 @@ public class PlayerHandler
 		return player;	
 	}
 	
+	
+	/*
+	 * Method to check if the email address is unique in the players table
+	 * returns a boolean variable
+	 */
 	public boolean checkIfEmailAlreadyRegistered(String email)
 	{
 		session = HibernateUtil.getSessionFactory().openSession();

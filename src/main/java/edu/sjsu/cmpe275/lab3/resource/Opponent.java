@@ -17,7 +17,15 @@ public class Opponent
 	long player1;
 	long player2;
 	long opponentid;
+	String msg;
 	
+	public String getMsg()
+	{
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 	public long getPlayer1() {
 		return player1;
 	}

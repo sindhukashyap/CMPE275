@@ -16,7 +16,7 @@ public class OpponentHandler
 	
 	/*
 	 * Adding new opponent
-	 * returns the added oppoenent
+	 * returns the added opponent
 	 */
 	public Opponent newOpponent(long id1, long id2)
 	{
@@ -27,8 +27,14 @@ public class OpponentHandler
 		session.beginTransaction();
 		session.save(opponent);
 		session.getTransaction().commit();
+		opponent.setMsg("Opponents added successfully");
 		return opponent;
 	}
+	
+	/*
+	 * deleting opponent
+	 * returns integer to indicate success/failure
+	 */
 	
 	public int deleteOpponent(long id1, long id2)
 	{
@@ -43,7 +49,10 @@ public class OpponentHandler
 		return result;
 	}
 
-	
+	/*
+	 * Checks if both the players already exist
+	 * returns a boolean variable 
+	 */
 	public boolean checkPlayersExist(long id1, long id2) 
 	{
 		boolean playersExist = false;
@@ -58,6 +67,10 @@ public class OpponentHandler
 		return playersExist;
 	}
 
+	/*
+	 * Checks if the two players are already opponents
+	 * returns a boolean variable 
+	 */
 	public boolean checkAlreadyOpponents(long id1, long id2) 
 	{
 		session = HibernateUtil.getSessionFactory().openSession();

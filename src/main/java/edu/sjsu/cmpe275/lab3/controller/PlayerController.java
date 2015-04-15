@@ -45,9 +45,13 @@ public class PlayerController {
 		{
 			return new ResponseEntity<Player>(handler.createPlayer(firstname,lastname,email,description,street,city,state,zip,sponsor),HttpStatus.OK);	
 		}
-		// have to throw different error if email id already exists
+		
 	}
 	
+	/*
+	 * method to retrieve a player
+	 * returns a player object
+	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public ResponseEntity<String> getPlayer(@PathVariable("id") long id)  
 	{
@@ -62,6 +66,10 @@ public class PlayerController {
 		}
 	}
 	
+	/*
+	 * method to delete a player
+	 * returns deleted object
+	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	public ResponseEntity<String> deletePlayer(@PathVariable("id") long id)
 	{
@@ -76,6 +84,10 @@ public class PlayerController {
 		}
 	}
 	
+	/*
+	 * method to update a player
+	 * returns the updated player object
+	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.POST)
 	public ResponseEntity updatePlayer(@PathVariable("id") long id,
 			@Valid @RequestParam(value="firstname") String firstname,

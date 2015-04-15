@@ -17,7 +17,10 @@ import edu.sjsu.cmpe275.lab3.handler.OpponentHandler;
 public class OpponentController {
 
 	OpponentHandler oppHandler;
-	
+	/*
+	 * method to add two players as opponents
+	 * returns created opponent object
+	 */
 	@RequestMapping(value="/{id1}/{id2}",method=RequestMethod.PUT)
 	public ResponseEntity<String> addOpponent(@PathVariable("id1") long id1,@PathVariable("id2") long id2)
 	{
@@ -38,6 +41,11 @@ public class OpponentController {
 			}
 		}
 	}
+	
+	/*
+	 * method to delete two players as opponents
+	 * returns a string message to indicate deletion success/failure 
+	 */
 	
 	@RequestMapping(value="/{id1}/{id2}",method=RequestMethod.DELETE)
 	public ResponseEntity<String> removeOpponent(@PathVariable("id1") long id1,@PathVariable("id2") long id2)

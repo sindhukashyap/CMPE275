@@ -7,6 +7,10 @@ public class HibernateUtil {
  
     private static final SessionFactory sessionFactory = buildSessionFactory();
  
+    /*
+     * Singleton method get the hibernate session
+     * returns the created SessionFactory object
+     */
     private static SessionFactory buildSessionFactory() 
     {
         try 
@@ -22,13 +26,16 @@ public class HibernateUtil {
         }
     }
  
+    
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
- 
+ /*
+  * method that Closes caches and connection pools
+  */
     public static void shutdown() 
     {
-    	// Close caches and connection pools
+    	
     	getSessionFactory().close();
     }
  

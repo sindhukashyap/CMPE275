@@ -113,6 +113,10 @@ public class SponsorHandler {
 		}
 	}
 	
+	/*
+	 * method to update a sponsor object
+	 * returns the updated sponsor object
+	 */
 	public Sponsor updateSponsor(long id,String name,String description,String state,String street,String city,String zip) 
 	{
 		sponsor = new Sponsor();
