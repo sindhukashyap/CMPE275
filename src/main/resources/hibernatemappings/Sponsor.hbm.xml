@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="edu.sjsu.cmpe275.lab3.resource.Sponsor" table="sponsor">
+        <id name="id" type="long">
+            <column name="sponsor_id" not-null ="true"/>
+             <generator class="native" /> 
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" unique="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="45" />
+        </property>
+      <!--  <property name="address" type="string">
+            <column name="address" length="100" />
+        </property> -->
+        <component name="address" class="edu.sjsu.cmpe275.lab3.resource.Address">
+			<property name="street" column="street" type="string" length="250" />
+			<property name="city" column="city" type="string" length="50" />
+			<property name="state" column="state" type="string" length="50" />
+			<property name="zip" column="zip" type="string" length="10" />
+		</component>
+    </class>   
+</hibernate-mapping>
