@@ -1,34 +1,35 @@
-﻿LAB3 - PERSISTENCE
+﻿##Basic
 
+This application was built as part of the coursework for Enterprise Application Development course at San Jose State University. A set of REST APIs are built to manage entities and relationships in a mini gaming website. 
 
-SJSU ID :009438377
-Name : Swathi Manthalapu Rameshbabu
-Email : swathi6489@gmail.com
+##Usage 
 
+There are two primary types of entities: Players and Sponsors. They have the following relationships and constraints:
+1. Opponents: if two players play against each other, they are opponents. The opponent relationship is s​ymmetric in that is Alice is an opponent of Bob, then Bob is also an opponent of Alice. A player can have zero or more opponent players.
+2. Sponsors: a player can optionally be sponsored by an external sponsor. D​ifferent players can have the s​ame​ sponsor.
+3. The firstname, lastname, and email fields are required for any player. Emails have to be u​nique​ across players.
+4. The name field is r​equired​ for any Sponsor, and does n​ot​ need to be unique.
 
-SJSU ID : 009984052
-Name: Sindhu Nagaraj Kashyap
-Email : sindhunagaraj.kashyap@sjsu.edu
+##Features 
+The application supports the following APIs:
 
+1. Create a player
+2. Get a player
+3. Update a player
+4. Delete a player
+5. Create a Sponsor
+6. Get a Sponsor
+7. Update a Sponsor
+8. Delete a Sponsor
+9. Add an opponent
+10. Delete an opponent
 
-Installation details:
+##Implementation details :
 
+1. Spring boot is used to build and run the REST APIs and Chrome plugin POSTMAN for testing the API URLs and viewing the json outputs.
+2. Local instance of MYSQL database and Hibernate ORM Mapping using XMLs is used to store the persistent data.
 
-1. Run the create queries in mysql from the file “Create queries.txt”
-2. Import the project RestPersistenceApplication as a maven project in your STS or Eclipse IDE.
-3. Clean the application once. Project-> clean and Project->install
-4. Right click project -> run as-> Spring Boot application.
-5. Open Postman in your Chrome browser and start hitting the URLs for the 10 APIs in order to see the json output.
-
-
-Implementation details :
-
-
-1. We have used Spring boot to build and run the REST APIs and Chrome plugin POSTMAN for testing the API URLs and viewing the json outputs.
-2. We have used a local instance of MYSQL database and Hibernate ORM Mapping using XMLs to store the persistent data.
-3. The controller classes for REST APIs are in the package : edu.sjsu.cmpe275.lab3.controller
-4. The Database Handlers for managing database operations are in the package : edu.sjsu.cmpe275.lab3.handler
-5. The POJO resource classes are in the package : edu.sjsu.cmpe275.lab3.resource
-6. The Util class for managing connection to the database using Hibernate are in the package : edu.sjsu.cmpe275.lab3.util
-7. The Hibernate config file, hibernate.cfg.xml is under: src-->main-->resources
-8.  The Hibernate mapping hbm files for mapping using ORM is under: src-->main-->resources-->hibernatemappings
+##Tools
+1. Eclipse with Spring Boot plug-in
+2. mysql Workbench to execute queries
+3. Postman REST Client for testing the REST APIs
